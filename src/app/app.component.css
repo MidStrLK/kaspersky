@@ -1,0 +1,17 @@
+.main-div{
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+
+.main-button-div{
+  background-color: aliceblue;
+  height: 10%;
+  width: 100%;
+}
+
+.main-grid-div{
+  background-color: blanchedalmond;
+  width: 100%;
+  height: 90%;
+}

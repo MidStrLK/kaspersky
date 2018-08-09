@@ -1,0 +1,14 @@
+table{
+  width: 100%;
+  background-color: white;
+  border-spacing: 0;
+}
+
+table tr{
+
+}
+
+table tr td{
+  border:1pt solid black;
+  padding: 10px;
+}
