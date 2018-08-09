@@ -1,1 +1,64 @@
-<div>MODAL!!!</div>
+<div class="modal modal-editor" *ngIf="is_open_window" (click)="closeModalWindow($event)">
+
+  <!-- Modal content -->
+  <div class="modal-content content-editor" (click)="closeModalWindow($event, true)">
+
+    <mat-form-field class="elem-div">
+      <input matInput placeholder="{{placeholders.name}}" [(ngModel)]="form.name">
+    </mat-form-field>
+
+
+
+    <mat-form-field class="elem-author">
+      <input matInput placeholder="{{placeholders.authorname}}" [(ngModel)]="author.name">
+    </mat-form-field>
+
+    <mat-form-field class="elem-author">
+      <input matInput placeholder="{{placeholders.authorlastname}}" [(ngModel)]="author.lastname">
+    </mat-form-field>
+
+    <button class="button-author" (click)="onAuthorButtonClick()">Apply Author</button>
+
+    <table class="table-author">
+      <tr *ngFor="let author of authorsList">
+        <td>{{author.name}}</td>
+        <td>{{author.lastname}}</td>
+      </tr>
+    </table>
+
+
+
+
+    <mat-form-field class="elem-div">
+      <input matInput type="number" placeholder="{{placeholders.pages}}" [(ngModel)]="form.pages">
+    </mat-form-field>
+
+    <mat-form-field class="elem-div">
+      <input matInput placeholder="{{placeholders.publishing}}" [(ngModel)]="form.publishing">
+    </mat-form-field>
+
+    <mat-form-field class="elem-div">
+      <input matInput type="number" placeholder="{{placeholders.year}}" [(ngModel)]="form.year">
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput [matDatepicker]="datepicker" placeholder="{{placeholders.date}}" [(ngModel)]="form.date">
+      <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
+      <mat-datepicker #datepicker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field class="elem-div">
+      <input matInput placeholder="{{placeholders.isbn}}" [(ngModel)]="form.isbn">
+    </mat-form-field>
+
+
+
+
+
+
+
+    <button (click)="onApplyClick()">Apply</button>
+
+  </div>
+
+</div>
