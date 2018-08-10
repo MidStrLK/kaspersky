@@ -1,12 +1,28 @@
-<table>
-  <tbody>
-    <tr>
-      <td>first</td>
-      <td>second</td>
-    </tr>
-    <tr>
-      <td>2first</td>
-      <td>2second</td>
-    </tr>
-  </tbody>
+<table mat-table [dataSource]="mainGrid" class="mat-elevation-z8">
+
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef>Заголовок</th>
+    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+  </ng-container>
+
+  <!-- Name Column -->
+  <ng-container matColumnDef="authorstr">
+    <th mat-header-cell *matHeaderCellDef> Автор </th>
+    <td mat-cell *matCellDef="let element"> {{element.authorstr}} </td>
+  </ng-container>
+
+  <!-- Name Column -->
+  <ng-container matColumnDef="publishing">
+    <th mat-header-cell *matHeaderCellDef> Издательство </th>
+    <td mat-cell *matCellDef="let element"> {{element.publishing}} </td>
+  </ng-container>
+
+  <!-- Name Column -->
+  <ng-container matColumnDef="year">
+    <th mat-header-cell *matHeaderCellDef> Год публикации </th>
+    <td mat-cell *matCellDef="let element"> {{element.year}} </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onRowClick(row.id)"></tr>
 </table>

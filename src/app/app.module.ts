@@ -1,9 +1,16 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+// import {NgxMaskModule} from 'ngx-mask';
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatInputModule, MatButtonModule, MatCheckboxModule, MatDatepickerModule, MatNativeDateModule} from '@angular/material';
+import {MatInputModule,
+  MatButtonModule,
+  MatCheckboxModule,
+  MatDatepickerModule,
+  MatNativeDateModule,
+  MatTableModule} from '@angular/material';
+import {MAT_DATE_LOCALE} from '@angular/material/core';
 
 import { AppComponent } from './app.component';
 import { ButtonComponent } from './buttons/button.component';
@@ -25,16 +32,19 @@ import { InteractionService } from './service/interaction.service';
   imports: [
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     BrowserAnimationsModule,
     MatInputModule,
     MatButtonModule,
     MatCheckboxModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatTableModule
   ],
   providers: [
     IoService,
-    InteractionService
+    InteractionService,
+    {provide: MAT_DATE_LOCALE, useValue: 'ru-RU'}
   ],
   bootstrap: [AppComponent]
 })

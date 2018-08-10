@@ -3,61 +3,90 @@
   <!-- Modal content -->
   <div class="modal-content content-editor" (click)="closeModalWindow($event, true)">
 
-    <mat-form-field class="elem-div">
-      <input matInput placeholder="{{placeholders.name}}" [(ngModel)]="form.name">
-    </mat-form-field>
+    <div class="form-div">
+      <div class="left-div">
+          <form [formGroup]="formGroup">
+
+            <mat-form-field class="elem-div">
+              <input matInput formControlName="id">
+            </mat-form-field>
+
+            <mat-form-field class="elem-div">
+              <input matInput placeholder="{{placeholders.name}}" formControlName="name">
+              <mat-error *ngFor="let validation of formValidationMessages.name">
+                <mat-error class="error-message" *ngIf="formGroup.get('name').hasError(validation.type) && (formGroup.get('name').dirty || formGroup.get('name').touched)">{{validation.message}}
+                </mat-error>
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="elem-div">
+              <input matInput type="number" placeholder="{{placeholders.pages}}" formControlName="pages">
+              <mat-error *ngFor="let validation of formValidationMessages.pages">
+                <mat-error class="error-message" *ngIf="formGroup.get('pages').hasError(validation.type) && (formGroup.get('pages').dirty || formGroup.get('pages').touched)">{{validation.message}}
+                </mat-error>
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="elem-div">
+              <input matInput placeholder="{{placeholders.publishing}}" formControlName="publishing">
+              <mat-error *ngFor="let validation of formValidationMessages.publishing">
+                <mat-error class="error-message" *ngIf="formGroup.get('publishing').hasError(validation.type) && (formGroup.get('publishing').dirty || formGroup.get('publishing').touched)">{{validation.message}}
+                </mat-error>
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="elem-div">
+              <input matInput type="number" placeholder="{{placeholders.year}}" formControlName="year">
+              <mat-error *ngFor="let validation of formValidationMessages.year">
+                <mat-error class="error-message" *ngIf="formGroup.get('year').hasError(validation.type) && (formGroup.get('year').dirty || formGroup.get('year').touched)">{{validation.message}}
+                </mat-error>
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+              <input matInput [matDatepicker]="datepicker" placeholder="{{placeholders.date}}" formControlName="date">
+              <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
+              <mat-datepicker #datepicker></mat-datepicker>
+              <mat-error *ngFor="let validation of formValidationMessages.date">
+                <mat-error class="error-message" *ngIf="formGroup.get('date').hasError(validation.type) && (formGroup.get('date').dirty || formGroup.get('date').touched)">{{validation.message}}
+                </mat-error>
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="elem-div">
+              <input matInput placeholder="{{placeholders.isbn}}" formControlName="isbn">
+              <mat-error *ngFor="let validation of formValidationMessages.isbn">
+                <mat-error class="error-message" *ngIf="formGroup.get('isbn').hasError(validation.type) && (formGroup.get('isbn').dirty || formGroup.get('isbn').touched)">{{validation.message}}
+                </mat-error>
+              </mat-error>
+            </mat-form-field>
 
 
+          </form>
+      </div>
 
-    <mat-form-field class="elem-author">
-      <input matInput placeholder="{{placeholders.authorname}}" [(ngModel)]="author.name">
-    </mat-form-field>
+      <div class="right-div">
+          <mat-form-field class="elem-author">
+            <input matInput placeholder="{{placeholders.authorname}}" [(ngModel)]="author.name">
+          </mat-form-field>
 
-    <mat-form-field class="elem-author">
-      <input matInput placeholder="{{placeholders.authorlastname}}" [(ngModel)]="author.lastname">
-    </mat-form-field>
+          <mat-form-field class="elem-author">
+            <input matInput placeholder="{{placeholders.authorlastname}}" [(ngModel)]="author.lastname">
+          </mat-form-field>
 
-    <button class="button-author" (click)="onAuthorButtonClick()">Apply Author</button>
+          <button class="button-author" (click)="onAuthorButtonClick()">Добавить автора</button>
 
-    <table class="table-author">
-      <tr *ngFor="let author of authorsList">
-        <td>{{author.name}}</td>
-        <td>{{author.lastname}}</td>
-      </tr>
-    </table>
+          <table class="table-author">
+            <tr *ngFor="let author of authorsList">
+              <td>{{author.name}}</td>
+              <td>{{author.lastname}}</td>
+            </tr>
+          </table>
 
+      </div>
+    </div>
 
-
-
-    <mat-form-field class="elem-div">
-      <input matInput type="number" placeholder="{{placeholders.pages}}" [(ngModel)]="form.pages">
-    </mat-form-field>
-
-    <mat-form-field class="elem-div">
-      <input matInput placeholder="{{placeholders.publishing}}" [(ngModel)]="form.publishing">
-    </mat-form-field>
-
-    <mat-form-field class="elem-div">
-      <input matInput type="number" placeholder="{{placeholders.year}}" [(ngModel)]="form.year">
-    </mat-form-field>
-
-    <mat-form-field>
-      <input matInput [matDatepicker]="datepicker" placeholder="{{placeholders.date}}" [(ngModel)]="form.date">
-      <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
-      <mat-datepicker #datepicker></mat-datepicker>
-    </mat-form-field>
-
-    <mat-form-field class="elem-div">
-      <input matInput placeholder="{{placeholders.isbn}}" [(ngModel)]="form.isbn">
-    </mat-form-field>
-
-
-
-
-
-
-
-    <button (click)="onApplyClick()">Apply</button>
+    <button (click)="onApplyClick()" [disabled]="!(formGroup.valid && authorsList.length)">Сохранить</button>
 
   </div>
 
