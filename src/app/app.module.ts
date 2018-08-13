@@ -4,19 +4,22 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 // import {NgxMaskModule} from 'ngx-mask';
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatInputModule,
+import {
+  MatInputModule,
   MatButtonModule,
   MatCheckboxModule,
   MatDatepickerModule,
   MatNativeDateModule,
-  MatTableModule} from '@angular/material';
+  MatTableModule,
+  MatSortModule,
+  MatSelectModule
+} from '@angular/material';
 import {MAT_DATE_LOCALE} from '@angular/material/core';
 
 import { AppComponent } from './app.component';
 import { ButtonComponent } from './buttons/button.component';
 import { GridComponent } from './grid/grid.component';
 import { ModalComponent } from './modal/modal.component';
-import { SortComponent } from './sort/sort.component';
 
 import { IoService } from './service/io.service';
 import { InteractionService } from './service/interaction.service';
@@ -26,8 +29,7 @@ import { InteractionService } from './service/interaction.service';
     AppComponent,
     ButtonComponent,
     GridComponent,
-    ModalComponent,
-    SortComponent
+    ModalComponent
   ],
   imports: [
     BrowserModule,
@@ -39,7 +41,9 @@ import { InteractionService } from './service/interaction.service';
     MatCheckboxModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatTableModule
+    MatTableModule,
+    MatSortModule,
+    MatSelectModule
   ],
   providers: [
     IoService,

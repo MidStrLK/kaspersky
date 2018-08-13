@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import {MatSort, MatTableDataSource} from '@angular/material';
 import { InteractionService } from '../service/interaction.service';
 import { IoService } from '../service/io.service';
 
@@ -8,6 +9,9 @@ import { IoService } from '../service/io.service';
   styleUrls: ['./grid.component.css']
 })
 export class GridComponent implements OnInit {
+  @ViewChild(MatSort) sort: MatSort;
+
+
   mainGrid: any = [];
   displayedColumns: string[] = ['name', 'authorstr', 'publishing', 'year'];
 
@@ -20,16 +24,45 @@ export class GridComponent implements OnInit {
     interaction.gridRefresh$.subscribe(() => {
       this.setMainGrid();
     });
+
+    interaction.gridSort$.subscribe((val) => {
+      this.sortMainGrid(val);
+    });
   }
+
 
   ngOnInit() {
     this.setMainGrid();
+
+    this.mainGrid.sort = this.sort;
+  }
+
+  sortMainGrid(field) {
+    console.log(field);
+
+    this.mainGrid.sort((a, b) => {
+      if (a[field] === undefined || b[field] === undefined) {
+        return 0;
+      }
+
+      if (a[field] < b[field]) {
+        return -1;
+      }
+
+      if (a[field] > b[field]) {
+        return 1;
+      }
+
+      return 0;
+    });
+
+    console.log(this.mainGrid);
   }
 
   setMainGrid() {
     const data = this.io.getData(null);
 
-    this.mainGrid = data;
+    this.mainGrid = new MatTableDataSource(data);
 
     console.log(data);
   }

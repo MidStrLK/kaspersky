@@ -7,8 +7,23 @@ import { InteractionService } from '../service/interaction.service';
   styleUrls: ['./button.component.css']
 })
 export class ButtonComponent {
+  sortItems: [{
+    label: 'По заголовку',
+    value: 'name'
+  }, {
+    label: 'По году публикации',
+    value: 'year'
+  }];
 
-  constructor(private interaction: InteractionService) {}
+  constructor(private interaction: InteractionService) {
+    this.sortItems = [{
+      label: 'По заголовку',
+      value: 'name'
+    }, {
+      label: 'По году публикации',
+      value: 'year'
+    }];
+  }
 
   onClickAdd() {
     console.log('CLICK_ADD');
@@ -21,5 +36,11 @@ export class ButtonComponent {
   onClickRemove() {
     console.log('CLICK_REMOVE');
     this.interaction.gridRemove('id');
+  }
+
+  onSelectChange($event) {
+    const value = $event.value;
+
+    if (value) { this.interaction.gridSort(value); }
   }
 }

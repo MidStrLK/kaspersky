@@ -134,7 +134,7 @@ export class ModalComponent {
 
     this.closeModalWindow(null, false);
 
-    this.interaction.refreshGrid();
+    this.interaction.gridRefresh();
   }
 
   openEditModal(id) {

@@ -1,3 +1,11 @@
 <button (click)="onClickAdd()">Добавить</button>
 <button (click)="onClickEdit()">Редактировать</button>
 <button (click)="onClickRemove()">Удалить</button>
+
+<mat-form-field>
+  <mat-select placeholder="сортировка" (selectionChange)="onSelectChange($event)">
+    <mat-option *ngFor="let item of sortItems" [value]="item.value">
+      {{item.label}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>

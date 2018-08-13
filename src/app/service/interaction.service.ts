@@ -7,11 +7,13 @@ export class InteractionService {
   public modalEditSource = new Subject<any>();
   public gridRemoveSource = new Subject<any>();
   public gridRefreshSource = new Subject<any>();
+  public gridSortSource = new Subject<any>();
 
   modalNew$ = this.modalNewSource.asObservable();
   modalEdit$ = this.modalEditSource.asObservable();
   gridRemove$ = this.gridRemoveSource.asObservable();
   gridRefresh$ = this.gridRefreshSource.asObservable();
+  gridSort$ = this.gridSortSource.asObservable();
 
   modalNew() {
     this.modalNewSource.next();
@@ -25,8 +27,12 @@ export class InteractionService {
     this.gridRemoveSource.next(id);
   }
 
-  refreshGrid() {
+  gridRefresh() {
     this.gridRefreshSource.next();
+  }
+
+  gridSort(value) {
+    this.gridSortSource.next(value);
   }
 
 }
