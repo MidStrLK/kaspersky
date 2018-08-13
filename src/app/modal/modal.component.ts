@@ -13,8 +13,13 @@ import * as moment from 'moment';
 
 export class ModalComponent {
   formGroup: FormGroup;
+  id = null;
+  image = null;
   is_open_window = false;
-  authorsList = [];
+  authorsList = [{
+    name: '',
+    lastname: ''
+  }];
   author = {
     name: '',
     lastname: ''
@@ -63,7 +68,7 @@ export class ModalComponent {
       { type: 'min', message: 'Не ранее 1 января 1800 года' }
     ],
     'isbn': [
-      { type: 'pattern', message: 'ISBN должно быть правильным' }
+      {type: 'pattern', message: 'ISBN должно быть правильным'}
     ]
   };
 
@@ -100,9 +105,37 @@ export class ModalComponent {
     });
   }
 
+  encodeImageFileAsURL() {
+    const inputFileToLoad: any = document.getElementById('inputFileToLoad');
+    const filesSelected = inputFileToLoad.files;
+    if (filesSelected.length > 0) {
+      const fileToLoad = filesSelected[0];
+      const fileReader = new FileReader();
+      const me = this;
+
+      fileReader.onload = function(fileLoadedEvent) {
+        const target: any =  fileLoadedEvent.target;
+        const srcData = target.result; // <--- data: base64
+
+        const newImage = document.createElement('img');
+        newImage.src = srcData;
+
+        document.getElementById('imageView').innerHTML = newImage.outerHTML;
+        const node: any = document.getElementById('imageView').childNodes[0];
+        node.height = 200;
+
+        me.image = newImage.outerHTML;
+      };
+
+      fileReader.readAsDataURL(fileToLoad);
+    }
+  }
+
   clearModal() {
     this.formGroup.patchValue(this.formDefaultValues);
     this.authorsList = [];
+    this.id = null;
+    this.image = null;
     this.author = {
       name: '',
       lastname: ''
@@ -110,13 +143,10 @@ export class ModalComponent {
   }
 
   onAuthorButtonClick() {
-    this.authorsList.push({
-      name: this.author.name,
-      lastname: this.author.lastname,
+    this.authorsList.unshift({
+      name: '',
+      lastname: '',
     });
-
-    this.author.name = '';
-    this.author.lastname = '';
   }
 
   onApplyClick() {
@@ -126,7 +156,18 @@ export class ModalComponent {
 
     const values = this.formGroup.value;
     values.date = moment(values.date).format('YYYYMMDD');
-    values.author = this.authorsList;
+    values.author = [];
+    values.id = this.id;
+    values.image = this.image;
+
+    this.authorsList.forEach(item => {
+      if (item.name || item.lastname) {
+        values.author.push({
+          name: item.name,
+          lastname: item.lastname
+        });
+      }
+    });
 
     if (!values.id) { values.id = moment().format('x'); }
 
@@ -140,11 +181,22 @@ export class ModalComponent {
   openEditModal(id) {
     const data = this.io.getData(id);
 
+    this.id = data.id;
+    this.image = data.image;
     this.formGroup.patchValue(data);
 
     this.authorsList = data.author;
 
     this.openModalWindow();
+
+    if (data.image) {
+      setTimeout(function(){
+        document.getElementById('imageView').innerHTML = data.image;
+        const node: any = document.getElementById('imageView').childNodes[0];
+        node.height = 200;
+      }, 10);
+
+    }
   }
 
   /* Закрыть окно */
@@ -159,7 +211,7 @@ export class ModalComponent {
     }
   }
 
-  openModalWindow(){
+  openModalWindow() {
     this.is_open_window = true;
   }
 

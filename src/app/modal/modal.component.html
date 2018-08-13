@@ -8,10 +8,6 @@
           <form [formGroup]="formGroup">
 
             <mat-form-field class="elem-div">
-              <input matInput formControlName="id">
-            </mat-form-field>
-
-            <mat-form-field class="elem-div">
               <input matInput placeholder="{{placeholders.name}}" formControlName="name">
               <mat-error *ngFor="let validation of formValidationMessages.name">
                 <mat-error class="error-message" *ngIf="formGroup.get('name').hasError(validation.type) && (formGroup.get('name').dirty || formGroup.get('name').touched)">{{validation.message}}
@@ -66,27 +62,45 @@
       </div>
 
       <div class="right-div">
-          <mat-form-field class="elem-author">
-            <input matInput placeholder="{{placeholders.authorname}}" [(ngModel)]="author.name">
-          </mat-form-field>
 
-          <mat-form-field class="elem-author">
-            <input matInput placeholder="{{placeholders.authorlastname}}" [(ngModel)]="author.lastname">
-          </mat-form-field>
+        <button mat-button class="button-author" (click)="onAuthorButtonClick()"><i class="fa fa-arrow-down"></i> Добавить автора</button>
 
-          <button class="button-author" (click)="onAuthorButtonClick()">Добавить автора</button>
-
-          <table class="table-author">
+        <div class="author-div">
+          <table class="author-table">
             <tr *ngFor="let author of authorsList">
-              <td>{{author.name}}</td>
-              <td>{{author.lastname}}</td>
+              <td>
+                <input [(ngModel)]="author.name">
+              </td>
+              <td>
+                <input [(ngModel)]="author.lastname">
+              </td>
             </tr>
           </table>
+
+
+          <!--<mat-form-field class="elem-author">
+            <input matInput [(ngModel)]="author.name">
+          </mat-form-field>
+
+          <mat-form-field class="elem-author">
+            <input matInput [(ngModel)]="author.lastname">
+          </mat-form-field>-->
+        </div>
+
+
+        <input id="inputFileToLoad" type="file" (change)="encodeImageFileAsURL();" />
+        <div id="imageView"></div>
+
+
+
 
       </div>
     </div>
 
-    <button (click)="onApplyClick()" [disabled]="!(formGroup.valid && authorsList.length)">Сохранить</button>
+    <div class="button-div">
+      <button mat-button (click)="onApplyClick()" [disabled]="!(formGroup.valid && authorsList.length)"><i class="fa fa-check-square"></i> Сохранить</button>
+      <button mat-button (click)="closeModalWindow()"><i class="fa fa-window-close"></i> Закрыть</button>
+    </div>
 
   </div>
 

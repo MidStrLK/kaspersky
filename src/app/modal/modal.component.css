@@ -16,8 +16,7 @@
   background-color: #fefefe;
   border: 1px solid #888;
   width: 650px;
-  height: 100%;
-  /*padding: 20px;*/
+  height: 515px;
   min-width: 300px;
 }
 
@@ -46,14 +45,14 @@
 .left-div{
   float: left;
   width: 300px;
-  height: 500px;
+  height: 450px;
   padding: 10px;
 }
 
 .right-div{
   float:right;
   width: 300px;
-  height: 500px;
+  height: 450px;
   padding: 10px;
 }
 
@@ -61,4 +60,37 @@
   float: left;
   width: 140px;
   padding-right: 10px;
+}
+
+.author-div{
+  height: 150px;
+  overflow-y: scroll;
+}
+
+.button-div{
+  float: right;
+}
+
+#imageView{
+  width:100px;
+  height: 100px;
+  position:relative;
+  margin-top: 12px;
+}
+
+#imageView>img{
+  position:absolute;
+  top:0;
+  bottom:0;
+  left:0;
+  right:0;
+}
+
+.author-table{
+  width: 99;
+}
+
+.author-table input{
+  width: 99%;
+
 }

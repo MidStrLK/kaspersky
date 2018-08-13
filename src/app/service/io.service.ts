@@ -18,11 +18,25 @@ export class IoService {
       }
     }
 
+    console.log('GET - ', result);
+
     return id ? result[0] : result;
   }
 
+  public removeData(id, callback) {
+    console.log(id);
+    if (!id) { return; }
 
-  private prepareBook(item){
+    if (id && localStorage.getItem(this.localStorageKey + id)) {
+      localStorage.removeItem(this.localStorageKey + id);
+
+      if (callback && typeof callback === 'function') {
+        callback();
+      }
+    }
+  }
+
+  private prepareBook(item) {
     item.date = moment(String(item.date), 'YYYYMMDD').toDate();
     item.authorstr = [];
 

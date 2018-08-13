@@ -10,23 +10,18 @@ import { IoService } from '../service/io.service';
 })
 export class GridComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
-
-
   mainGrid: any = [];
-  displayedColumns: string[] = ['name', 'authorstr', 'publishing', 'year'];
+  displayedColumns: string[] = [
+    'name',
+    'authorstr',
+    'publishing',
+    'year',
+    'remove'];
 
   constructor(private io: IoService,
               private interaction: InteractionService) {
-    interaction.gridRemove$.subscribe((id) => {
-      this.removeStr(id);
-    });
-
     interaction.gridRefresh$.subscribe(() => {
       this.setMainGrid();
-    });
-
-    interaction.gridSort$.subscribe((val) => {
-      this.sortMainGrid(val);
     });
   }
 
@@ -37,49 +32,21 @@ export class GridComponent implements OnInit {
     this.mainGrid.sort = this.sort;
   }
 
-  sortMainGrid(field) {
-    console.log(field);
-
-    this.mainGrid.sort((a, b) => {
-      if (a[field] === undefined || b[field] === undefined) {
-        return 0;
-      }
-
-      if (a[field] < b[field]) {
-        return -1;
-      }
-
-      if (a[field] > b[field]) {
-        return 1;
-      }
-
-      return 0;
-    });
-
-    console.log(this.mainGrid);
-  }
-
   setMainGrid() {
     const data = this.io.getData(null);
 
-    this.mainGrid = new MatTableDataSource(data);
-
-    console.log(data);
+    if (data) {
+      this.mainGrid = new MatTableDataSource(data);
+    }
   }
 
-  onRowClick(id) {
-    this.interaction.modalEdit(id);
+  onRowClick($event, id) {
+    if (!$event || !$event.target.getAttribute('name')) {
+      this.interaction.modalEdit(id);
+    }
   }
 
-  addStr(data) {
-    console.log('ADD STR', data);
-  }
-
-  editStr(data) {
-    console.log('EDIT STR', data);
-  }
-
-  removeStr(id) {
-    console.log('REMOVE STR', id);
+  onClickRemove(id) {
+    this.io.removeData(id, () => {this.setMainGrid(); });
   }
 }
