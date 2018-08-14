@@ -3,28 +3,25 @@ import { Subject } from 'rxjs';
 
 @Injectable()
 export class InteractionService {
-  public modalNewSource = new Subject<any>();
-  public modalEditSource = new Subject<any>();
-  public gridRemoveSource = new Subject<any>();
-  public gridRefreshSource = new Subject<any>();
+  public modalNewSource = new Subject<any>();     // Открыть окно для добавления
+  public modalEditSource = new Subject<any>();    // Открыть окно для редактирования
+  public gridRefreshSource = new Subject<any>();  // Обновить таблицу
 
   modalNew$ = this.modalNewSource.asObservable();
   modalEdit$ = this.modalEditSource.asObservable();
-  gridRemove$ = this.gridRemoveSource.asObservable();
   gridRefresh$ = this.gridRefreshSource.asObservable();
 
+  /* Открыть окно для добавления (ловится в modal.component.ts) */
   modalNew() {
     this.modalNewSource.next();
   }
 
+  /* Открыть окно для редактирования (ловится в modal.component.ts) */
   modalEdit(id) {
     this.modalEditSource.next(id);
   }
 
-  gridRemove(id) {
-    this.gridRemoveSource.next(id);
-  }
-
+  /* Обновить таблицу (ловится в grid.component.ts) */
   gridRefresh() {
     this.gridRefreshSource.next();
   }

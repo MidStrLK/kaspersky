@@ -1,12 +1,15 @@
+<!-- Задник во весь экран -->
 <div class="modal modal-editor" *ngIf="is_open_window" (click)="closeModalWindow($event)">
 
-  <!-- Modal content -->
+  <!-- Модальное окно -->
   <div class="modal-content content-editor" (click)="closeModalWindow($event, true)">
 
+    <!-- Форма со всеми полями -->
     <div class="form-div">
       <div class="left-div">
           <form [formGroup]="formGroup">
 
+            <!-- Заголовок -->
             <mat-form-field class="elem-div">
               <input matInput placeholder="{{placeholders.name}}" formControlName="name">
               <mat-error *ngFor="let validation of formValidationMessages.name">
@@ -15,6 +18,7 @@
               </mat-error>
             </mat-form-field>
 
+            <!-- Количество страниц -->
             <mat-form-field class="elem-div">
               <input matInput type="number" placeholder="{{placeholders.pages}}" formControlName="pages">
               <mat-error *ngFor="let validation of formValidationMessages.pages">
@@ -23,6 +27,7 @@
               </mat-error>
             </mat-form-field>
 
+            <!-- Издательство -->
             <mat-form-field class="elem-div">
               <input matInput placeholder="{{placeholders.publishing}}" formControlName="publishing">
               <mat-error *ngFor="let validation of formValidationMessages.publishing">
@@ -31,6 +36,7 @@
               </mat-error>
             </mat-form-field>
 
+            <!-- Год публикации -->
             <mat-form-field class="elem-div">
               <input matInput type="number" placeholder="{{placeholders.year}}" formControlName="year">
               <mat-error *ngFor="let validation of formValidationMessages.year">
@@ -39,6 +45,7 @@
               </mat-error>
             </mat-form-field>
 
+            <!-- Дата выхода в тираж -->
             <mat-form-field>
               <input matInput [matDatepicker]="datepicker" placeholder="{{placeholders.date}}" formControlName="date">
               <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
@@ -49,6 +56,7 @@
               </mat-error>
             </mat-form-field>
 
+            <!-- ISBN -->
             <mat-form-field class="elem-div">
               <input matInput placeholder="{{placeholders.isbn}}" formControlName="isbn">
               <mat-error *ngFor="let validation of formValidationMessages.isbn">
@@ -63,8 +71,10 @@
 
       <div class="right-div">
 
+        <!-- кнопка "Добавить автора" -->
         <button mat-button class="button-author" (click)="onAuthorButtonClick()"><i class="fa fa-arrow-down"></i> Добавить автора</button>
 
+        <!-- Список авторов -->
         <div class="author-div">
           <table class="author-table">
             <tr *ngFor="let author of authorsList">
@@ -76,19 +86,12 @@
               </td>
             </tr>
           </table>
-
-
-          <!--<mat-form-field class="elem-author">
-            <input matInput [(ngModel)]="author.name">
-          </mat-form-field>
-
-          <mat-form-field class="elem-author">
-            <input matInput [(ngModel)]="author.lastname">
-          </mat-form-field>-->
         </div>
 
-
+        <!-- Загрузить изображение -->
         <input id="inputFileToLoad" type="file" (change)="encodeImageFileAsURL();" />
+
+        <!-- Показать изображение -->
         <div id="imageView"></div>
 
 
@@ -97,6 +100,7 @@
       </div>
     </div>
 
+    <!-- Кнопки "Сохранить" и "Закрыть" -->
     <div class="button-div">
       <button mat-button (click)="onApplyClick()" [disabled]="!(formGroup.valid && authorsList.length)"><i class="fa fa-check-square"></i> Сохранить</button>
       <button mat-button (click)="closeModalWindow()"><i class="fa fa-window-close"></i> Закрыть</button>

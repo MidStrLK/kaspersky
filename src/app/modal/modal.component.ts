@@ -12,18 +12,15 @@ import * as moment from 'moment';
 })
 
 export class ModalComponent {
-  formGroup: FormGroup;
-  id = null;
-  image = null;
-  is_open_window = false;
+  formGroup: FormGroup;                   // Форма
+  id = null;                              // id книги (null - новая)
+  image = null;                           // картинка обложки книги
+  is_open_window = false;                 // Флаг открытого окна
+  image_height: 250;                      // высота изображения обложки
   authorsList = [{
     name: '',
     lastname: ''
-  }];
-  author = {
-    name: '',
-    lastname: ''
-  };
+  }];          // Список авторов
   placeholders = {
     name: 'Заголовок',
     author: 'Список авторов',
@@ -35,7 +32,7 @@ export class ModalComponent {
     image: 'Загрузка изображения',
     authorname: 'Имя автора',
     authorlastname: 'Фамилия автора'
-  };
+  };  // Список названий полей формы
   formDefaultValues = {
     id: '',
     name: '',
@@ -46,7 +43,7 @@ export class ModalComponent {
     isbn: '',
     authorname: '',
     authorlastname: ''
-  };
+  };        // Значения полей формы по умолчанию
   formValidationMessages = {
     'name': [
       { type: 'required', message: 'Введите заголовок' },
@@ -70,20 +67,25 @@ export class ModalComponent {
     'isbn': [
       {type: 'pattern', message: 'ISBN должно быть правильным'}
     ]
-  };
+  };         // Сообщения ошибок при валидации формы
 
   constructor(private fb: FormBuilder,
               private io: IoService,
               private interaction: InteractionService) {
+
+    /* Событие добавления книги */
     interaction.modalNew$.subscribe(() => {
       this.openModalWindow();
     });
 
+    /* Событие редактирования книги */
     interaction.modalEdit$.subscribe((id) => {
       this.openEditModal(id);
     });
 
+    this.image_height = 250;
 
+    /* инициируем форму */
     this.formGroup = fb.group({
       'id': '',
       'name': [this.formDefaultValues.name, Validators.compose([
@@ -105,43 +107,7 @@ export class ModalComponent {
     });
   }
 
-  encodeImageFileAsURL() {
-    const inputFileToLoad: any = document.getElementById('inputFileToLoad');
-    const filesSelected = inputFileToLoad.files;
-    if (filesSelected.length > 0) {
-      const fileToLoad = filesSelected[0];
-      const fileReader = new FileReader();
-      const me = this;
-
-      fileReader.onload = function(fileLoadedEvent) {
-        const target: any =  fileLoadedEvent.target;
-        const srcData = target.result; // <--- data: base64
-
-        const newImage = document.createElement('img');
-        newImage.src = srcData;
-
-        document.getElementById('imageView').innerHTML = newImage.outerHTML;
-        const node: any = document.getElementById('imageView').childNodes[0];
-        node.height = 200;
-
-        me.image = newImage.outerHTML;
-      };
-
-      fileReader.readAsDataURL(fileToLoad);
-    }
-  }
-
-  clearModal() {
-    this.formGroup.patchValue(this.formDefaultValues);
-    this.authorsList = [];
-    this.id = null;
-    this.image = null;
-    this.author = {
-      name: '',
-      lastname: ''
-    };
-  }
-
+  /* Клик  по кнопке "добавить автора" добавляет 2 поля для имени и фамилии */
   onAuthorButtonClick() {
     this.authorsList.unshift({
       name: '',
@@ -149,6 +115,7 @@ export class ModalComponent {
     });
   }
 
+  /* Клик по кнопке "Сохранить" */
   onApplyClick() {
     if (!this.formGroup.valid) {
       return;
@@ -178,6 +145,42 @@ export class ModalComponent {
     this.interaction.gridRefresh();
   }
 
+  /* Вставка загруженного изображения в  #imageView и получения base64 кода*/
+  encodeImageFileAsURL() {
+    const inputFileToLoad: any = document.getElementById('inputFileToLoad');
+    const filesSelected = inputFileToLoad.files;
+    if (filesSelected.length > 0) {
+      const fileToLoad = filesSelected[0];
+      const fileReader = new FileReader();
+      const me = this;
+
+      fileReader.onload = function(fileLoadedEvent) {
+        const target: any =  fileLoadedEvent.target;
+        const srcData = target.result; // <--- data: base64
+
+        const newImage = document.createElement('img');
+        newImage.src = srcData;
+
+        document.getElementById('imageView').innerHTML = newImage.outerHTML;
+        const node: any = document.getElementById('imageView').childNodes[0];
+        node.height = me.image_height;
+
+        me.image = newImage.outerHTML;
+      };
+
+      fileReader.readAsDataURL(fileToLoad);
+    }
+  }
+
+  /* Очистка всех полей окна */
+  clearModal() {
+    this.formGroup.patchValue(this.formDefaultValues);
+    this.authorsList = [];
+    this.id = null;
+    this.image = null;
+  }
+
+  /* Открытие окна для редактирования */
   openEditModal(id) {
     const data = this.io.getData(id);
 
@@ -190,10 +193,10 @@ export class ModalComponent {
     this.openModalWindow();
 
     if (data.image) {
-      setTimeout(function(){
+      setTimeout(() => {
         document.getElementById('imageView').innerHTML = data.image;
         const node: any = document.getElementById('imageView').childNodes[0];
-        node.height = 200;
+        node.height = this.image_height;
       }, 10);
 
     }
@@ -211,6 +214,7 @@ export class ModalComponent {
     }
   }
 
+  /* Открыть окно */
   openModalWindow() {
     this.is_open_window = true;
   }

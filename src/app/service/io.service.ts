@@ -1,12 +1,10 @@
 import * as moment from 'moment';
 
 export class IoService {
+  /* Префикс, добавляется к id записи, для простого поиска в localStorage */
   private localStorageKey = 'book-';
 
-  public setData(data) {
-    localStorage.setItem(this.localStorageKey + data.id, JSON.stringify(data));
-  }
-
+  /* Получить записть (если есть id) или все записи */
   public getData(id) {
     const result = [];
     const prefix = this.localStorageKey + (id || '');
@@ -23,6 +21,12 @@ export class IoService {
     return id ? result[0] : result;
   }
 
+  /* Сохранить запись */
+  public setData(data) {
+    localStorage.setItem(this.localStorageKey + data.id, JSON.stringify(data));
+  }
+
+  /* Удалить запись */
   public removeData(id, callback) {
     console.log(id);
     if (!id) { return; }
@@ -36,6 +40,9 @@ export class IoService {
     }
   }
 
+  /* Подготовка книги к отображению
+   * 1. Дату перевести в формат даты
+   * 2. Авторов записать в строку */
   private prepareBook(item) {
     item.date = moment(String(item.date), 'YYYYMMDD').toDate();
     item.authorstr = [];
