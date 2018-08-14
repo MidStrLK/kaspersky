@@ -71,6 +71,10 @@
   float: right;
 }
 
+#inputFileToLoad{
+  margin-top: 10px;
+}
+
 #imageView{
   width:100px;
   height: 100px;

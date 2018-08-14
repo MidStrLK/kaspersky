@@ -66,6 +66,9 @@ export class ModalComponent {
     ],
     'isbn': [
       {type: 'pattern', message: 'ISBN должно быть правильным'}
+    ],
+    'author': [
+      {type: 'length', message: 'Должен быть хотя бы один автор'}
     ]
   };         // Сообщения ошибок при валидации формы
 
@@ -170,6 +173,19 @@ export class ModalComponent {
 
       fileReader.readAsDataURL(fileToLoad);
     }
+  }
+
+  /* Валидация таблицы авторов */
+  isAuthorValid() {
+    let flag = false;
+
+    this.authorsList.forEach( item => {
+      if (item.name && item.lastname) {
+        flag = true;
+      }
+    });
+
+    return flag;
   }
 
   /* Очистка всех полей окна */
