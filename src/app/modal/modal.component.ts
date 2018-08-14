@@ -68,7 +68,8 @@ export class ModalComponent {
       {type: 'pattern', message: 'ISBN должно быть правильным'}
     ],
     'author': [
-      {type: 'length', message: 'Должен быть хотя бы один автор'}
+      {type: 'at_lest_one', message: 'Должен быть хотя бы один автор'},
+      {type: 'name_and_lastname', message: 'У каждого автора должны быть имя и фамилия'}
     ]
   };         // Сообщения ошибок при валидации формы
 
@@ -176,22 +177,29 @@ export class ModalComponent {
   }
 
   /* Валидация таблицы авторов */
-  isAuthorValid() {
-    let flag = false;
+  isAuthorValid(type) {
+    let result = false;
+    let at_lest_one = false;        // Хотя бы 1 автор
+    let name_and_lastname = true;   // Для каждого автора обязательно имя и фамилия, либо оба поля пусты
 
     this.authorsList.forEach( item => {
-      if (item.name && item.lastname) {
-        flag = true;
-      }
+      if (item.name || item.lastname) { at_lest_one = true; }
+      if ((item.name || item.lastname) && (!item.name || !item.lastname)) { name_and_lastname = false; }
     });
 
-    return flag;
+    if (type === 'at_lest_one') { result = at_lest_one; }
+    if (type === 'name_and_lastname' ) { result = at_lest_one ? name_and_lastname : true; }
+
+    return result;
   }
 
   /* Очистка всех полей окна */
   clearModal() {
     this.formGroup.patchValue(this.formDefaultValues);
-    this.authorsList = [];
+    this.authorsList = [{
+      name: '',
+      lastname: ''
+    }];
     this.id = null;
     this.image = null;
   }

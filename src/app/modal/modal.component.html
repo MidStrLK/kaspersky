@@ -20,7 +20,7 @@
 
             <!-- Количество страниц -->
             <mat-form-field class="elem-div">
-              <input matInput type="number" placeholder="{{placeholders.pages}}" formControlName="pages">
+              <input matInput type="number" placeholder="{{placeholders.pages}}" formControlName="pages" min="1" max="10000">
               <mat-error *ngFor="let validation of formValidationMessages.pages">
                 <mat-error class="error-message" *ngIf="formGroup.get('pages').hasError(validation.type) && (formGroup.get('pages').dirty || formGroup.get('pages').touched)">{{validation.message}}
                 </mat-error>
@@ -29,7 +29,7 @@
 
             <!-- Издательство -->
             <mat-form-field class="elem-div">
-              <input matInput placeholder="{{placeholders.publishing}}" formControlName="publishing">
+              <input matInput placeholder="{{placeholders.publishing}}" formControlName="publishing" min="1800">
               <mat-error *ngFor="let validation of formValidationMessages.publishing">
                 <mat-error class="error-message" *ngIf="formGroup.get('publishing').hasError(validation.type) && (formGroup.get('publishing').dirty || formGroup.get('publishing').touched)">{{validation.message}}
                 </mat-error>
@@ -88,7 +88,7 @@
           </table>
         </div>
         <mat-error *ngFor="let validation of formValidationMessages.author">
-          <mat-error class="error-message" *ngIf="!isAuthorValid()">{{validation.message}}
+          <mat-error class="error-message" *ngIf="!isAuthorValid(validation.type)">{{validation.message}}
           </mat-error>
         </mat-error>
 
@@ -106,7 +106,7 @@
 
     <!-- Кнопки "Сохранить" и "Закрыть" -->
     <div class="button-div">
-      <button mat-button (click)="onApplyClick()" [disabled]="!(formGroup.valid && isAuthorValid())"><i class="fa fa-check-square"></i> Сохранить</button>
+      <button mat-button (click)="onApplyClick()" [disabled]="!(formGroup.valid && isAuthorValid('at_lest_one') && isAuthorValid('name_and_lastname'))"><i class="fa fa-check-square"></i> Сохранить</button>
       <button mat-button (click)="closeModalWindow()"><i class="fa fa-window-close"></i> Закрыть</button>
     </div>
 

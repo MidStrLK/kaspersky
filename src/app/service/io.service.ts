@@ -40,6 +40,18 @@ export class IoService {
     }
   }
 
+  /* Сохраняет данные сортировки */
+  public setSort(active, direction) {
+    localStorage.setItem('grid_sort', JSON.stringify({active, direction}));
+  }
+
+  /* Возвращает данные для сортировки */
+  public getSort() {
+    const grid_sort = localStorage.getItem('grid_sort');
+
+    return grid_sort ? JSON.parse(grid_sort) : {active: 'name', direction: 'desc'};
+  }
+
   /* Подготовка книги к отображению
    * 1. Дату перевести в формат даты
    * 2. Авторов записать в строку */

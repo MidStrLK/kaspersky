@@ -47,7 +47,7 @@ import { InteractionService } from './service/interaction.service';
   providers: [
     IoService,
     InteractionService,
-    {provide: MAT_DATE_LOCALE, useValue: 'ru-RU'}
+    {provide: MAT_DATE_LOCALE, useValue: 'ru-RU'},
   ],
   bootstrap: [AppComponent]
 })
